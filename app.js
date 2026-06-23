@@ -1,11 +1,13 @@
 /* =============================================================
-   BITRIX.PRO landing — interactive layer
+   Интеграторы Слон — interactive layer
    ============================================================= */
 
 const $  = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
 const PRM = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const HOVER = matchMedia('(hover: hover)').matches;
+const NARROW = innerWidth < 980;
+const LOW_END = (navigator.hardwareConcurrency || 4) <= 4 || NARROW;
 const escapeHTML = (s) => String(s).replace(/[&<>"'/]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','/':'&#47;'}[c]));
 const rafThrottle = (fn) => { let t = false; return (...a) => { if (t) return; t = true; requestAnimationFrame(() => { fn(...a); t = false; }); }; };
 
@@ -17,14 +19,16 @@ const rafThrottle = (fn) => { let t = false; return (...a) => { if (t) return; t
   if (!pre) return;
   let p = 0;
   const tick = () => {
-    p = Math.min(100, p + (Math.random() * 14 + 6));
+    p = Math.min(100, p + (Math.random() * 22 + 14));
     fill.style.width = p + '%';
     pct.textContent = Math.floor(p);
-    if (p < 100) setTimeout(tick, 90);
-    else setTimeout(() => pre.classList.add('hidden'), 250);
+    if (p < 100) setTimeout(tick, 55);
+    else setTimeout(() => pre.classList.add('hidden'), 180);
   };
   if (document.readyState === 'complete') tick();
   else window.addEventListener('load', tick);
+  // hard fallback — никогда не зависать
+  setTimeout(() => pre.classList.add('hidden'), 3500);
 })();
 
 /* ===== Scroll progress ===== */
@@ -104,14 +108,22 @@ if (HOVER && !PRM) (() => {
 (() => {
   const el = $('[data-split]');
   if (!el) return;
-  const text = el.textContent;
+  const text = el.textContent.trim();
   el.innerHTML = '';
-  [...text].forEach((ch, i) => {
-    const span = document.createElement('span');
-    span.className = 'char';
-    span.textContent = ch === ' ' ? ' ' : ch;
-    span.style.transitionDelay = (i * 28) + 'ms';
-    el.appendChild(span);
+  let i = 0;
+  text.split(/(\s+)/).forEach(part => {
+    if (/^\s+$/.test(part)) { el.appendChild(document.createTextNode(' ')); return; }
+    const word = document.createElement('span');
+    word.className = 'word';
+    [...part].forEach(ch => {
+      const span = document.createElement('span');
+      span.className = 'char';
+      span.textContent = ch;
+      span.style.transitionDelay = (i * 28) + 'ms';
+      word.appendChild(span);
+      i++;
+    });
+    el.appendChild(word);
   });
   setTimeout(() => el.classList.add('is-split'), 500);
 })();
@@ -241,80 +253,63 @@ if (!PRM) (() => {
   io.observe(path);
 })();
 
-/* ===== Particles (constellation) ===== */
+/* ===== Fireflies (golden glow particles) ===== */
 if (!PRM) (() => {
   const canvas = $('#particles');
   if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  let w, h, particles, mouse = { x: -9999, y: -9999 };
-  const isMobile = innerWidth < 768;
-  const COUNT = isMobile ? 35 : 75;
-  const LINK_DIST = isMobile ? 90 : 140;
-  let raf = null;
+  const ctx = canvas.getContext('2d', { alpha: true });
+  let w, h, particles, dpr = 1;
+  const COUNT = LOW_END ? 18 : 45;
+  const BLUR = LOW_END ? 0 : 10;
+  let raf = null, t0 = performance.now();
+  let skip = 0; // skip every other frame on low-end
 
   function resize() {
-    w = canvas.width = innerWidth;
-    h = canvas.height = innerHeight;
+    dpr = Math.min(window.devicePixelRatio || 1, LOW_END ? 1 : 1.5);
+    w = innerWidth; h = innerHeight;
+    canvas.width = w * dpr; canvas.height = h * dpr;
+    canvas.style.width = w + 'px'; canvas.style.height = h + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
   function init() {
     particles = Array.from({ length: COUNT }, () => ({
       x: Math.random() * w,
       y: Math.random() * h,
-      r: Math.random() * 1.6 + 0.5,
-      vx: (Math.random() - 0.5) * 0.3,
-      vy: (Math.random() - 0.5) * 0.3,
-      a: Math.random() * 0.5 + 0.25,
+      r: Math.random() * 1.3 + 0.6,
+      vx: (Math.random() - 0.5) * 0.1,
+      vy: (Math.random() - 0.5) * 0.1,
+      base: Math.random() * 0.45 + 0.25,
+      phase: Math.random() * Math.PI * 2,
+      speed: Math.random() * 0.0012 + 0.0006,
     }));
   }
-  function draw() {
+  function draw(now) {
+    if (LOW_END) { skip = (skip + 1) % 2; if (skip) { raf = requestAnimationFrame(draw); return; } }
+    const t = now - t0;
     ctx.clearRect(0, 0, w, h);
-    for (const p of particles) {
-      // mouse repulsion
-      const dx = p.x - mouse.x, dy = p.y - mouse.y;
-      const d2 = dx*dx + dy*dy;
-      if (d2 < 120 * 120) {
-        const d = Math.sqrt(d2) || 1;
-        const f = (120 - d) / 120 * 0.6;
-        p.x += dx / d * f;
-        p.y += dy / d * f;
-      }
+    ctx.shadowColor = BLUR ? 'rgba(212,175,55,0.9)' : 'transparent';
+    ctx.shadowBlur = BLUR;
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
       p.x += p.vx; p.y += p.vy;
-      if (p.x < 0 || p.x > w) p.vx *= -1;
-      if (p.y < 0 || p.y > h) p.vy *= -1;
+      if (p.x < -10) p.x = w + 10;
+      else if (p.x > w + 10) p.x = -10;
+      if (p.y < -10) p.y = h + 10;
+      else if (p.y > h + 10) p.y = -10;
+      const a = p.base * (0.55 + 0.45 * Math.sin(t * p.speed * 3 + p.phase));
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(212, 175, 55, ${p.a})`;
-      ctx.shadowColor = 'rgba(212,175,55,0.55)';
-      ctx.shadowBlur = 6;
+      ctx.fillStyle = `rgba(245, 207, 76, ${a})`;
       ctx.fill();
-    }
-    ctx.shadowBlur = 0;
-    // links
-    for (let i = 0; i < particles.length; i++) {
-      for (let j = i + 1; j < particles.length; j++) {
-        const a = particles[i], b = particles[j];
-        const dx = a.x - b.x, dy = a.y - b.y;
-        const d = Math.sqrt(dx*dx + dy*dy);
-        if (d < LINK_DIST) {
-          const o = (1 - d / LINK_DIST) * 0.25;
-          ctx.strokeStyle = `rgba(212, 175, 55, ${o})`;
-          ctx.lineWidth = 1;
-          ctx.beginPath();
-          ctx.moveTo(a.x, a.y);
-          ctx.lineTo(b.x, b.y);
-          ctx.stroke();
-        }
-      }
     }
     raf = requestAnimationFrame(draw);
   }
-  resize(); init(); draw();
-  addEventListener('resize', () => { resize(); init(); });
-  addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
-  addEventListener('mouseout', () => { mouse.x = mouse.y = -9999; });
+  resize(); init(); raf = requestAnimationFrame(draw);
+  let resizeT;
+  addEventListener('resize', () => { clearTimeout(resizeT); resizeT = setTimeout(() => { resize(); init(); }, 200); });
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) { cancelAnimationFrame(raf); raf = null; }
-    else if (!raf) { draw(); }
+    else if (!raf) { t0 = performance.now(); raf = requestAnimationFrame(draw); }
   });
 })();
 
@@ -457,14 +452,18 @@ const toast = (msg, kind = 'ok') => {
   let lastFocus = null;
 
   const SERVICES = {
-    crm:     { title: 'Внедрение CRM',    text: 'Структурируем продажи: воронки, права, сделки, статусы.', list: ['Аудит процессов', 'Карточки сделок', 'Поля и стадии', 'Права доступа'] },
-    auto:    { title: 'Автоматизация',    text: 'Освобождаем команду от рутины через роботов и БП.',     list: ['Роботы стадий', 'Бизнес‑процессы', 'Триггеры', 'Уведомления'] },
-    integ:   { title: 'Интеграции',       text: 'Связываем Битрикс24 с вашими сервисами.',                list: ['1С / 1С УТ', 'Телефония', 'WhatsApp / Telegram', 'API'] },
-    portal:  { title: 'Корпоративный портал', text: 'Организуем структуру компании и совместную работу.', list: ['Структура и роли', 'Документы', 'Задачи и проекты', 'Внутренний чат'] },
-    bi:      { title: 'Аналитика',        text: 'Видите бизнес как на ладони.',                          list: ['Дашборды', 'KPI отдела', 'Сквозная аналитика', 'Отчёты'] },
-    edu:     { title: 'Обучение',         text: 'Чтобы команда полюбила систему.',                       list: ['Тренинги по ролям', 'Видеоинструкции', 'База знаний', 'Поддержка вопросов'] },
-    migr:    { title: 'Миграция данных',  text: 'Безопасно переносим из вашей текущей системы.',         list: ['Экспорт клиентов', 'История сделок', 'Документы', 'Маппинг полей'] },
-    support: { title: 'Поддержка 24/7',   text: 'Сопровождение и доработки на ежемесячной основе.',      list: ['SLA‑ответ', 'Запас часов', 'Доработки', 'Развитие системы'] },
+    tg:      { title: 'Telegram‑боты и интеграции', text: 'Боты для продаж и поддержки, TG‑приложения, связка с CRM.', list: ['Бот продаж и заявок', 'Поддержка клиентов', 'Telegram‑приложения', 'Интеграция с CRM'] },
+    funnel:  { title: 'Воронки продаж',     text: 'Внедряем и настраиваем воронки под ваши процессы.',          list: ['Аудит этапов', 'Стадии и поля', 'Сценарии', 'Автоматизация перехода'] },
+    integ:   { title: 'Интеграции CRM',     text: 'Связываем CRM с сайтом, Avito, маркетплейсами и сервисами.', list: ['Сайт и формы', 'Avito', 'Маркетплейсы', 'Сторонние API'] },
+    bi:      { title: 'BI и аналитика',     text: 'Прозрачные отчёты и KPI по отделам.',                        list: ['Сквозная аналитика', 'KPI и дашборды', 'Связка с CRM', 'Отчёты руководителю'] },
+    web:     { title: 'Разработка сайтов',  text: 'От лендинга до многостраничного сайта и e‑commerce.',        list: ['Лендинги', 'Корпоративные сайты', 'Интернет‑магазины', 'Подключение к CRM'] },
+    app:     { title: 'Разработка приложений', text: 'Мобильные и web‑приложения под задачу.',                   list: ['iOS / Android', 'Кроссплатформенные', 'PWA и web‑apps', 'Интеграция с системами'] },
+    auto:    { title: 'Автоматизация CRM',  text: 'Освобождаем команду от рутины.',                             list: ['Роботы стадий', 'Бизнес‑процессы', 'Триггеры', 'Авто‑уведомления'] },
+    catalog: { title: 'Каталог товаров',    text: 'Структурируем номенклатуру и синхронизируем с CRM.',          list: ['Категории и свойства', 'Импорт из 1С/файла', 'Синхронизация остатков', 'Цены и склады'] },
+    phone:   { title: 'Настройка телефонии', text: 'Подключение SIP, виртуальной АТС и записи звонков.',        list: ['Подключение операторов', 'Распределение звонков', 'Запись и аналитика', 'Связка с CRM'] },
+    onec:    { title: 'Интеграция с 1С',    text: 'Обмен данными в обе стороны по любой конфигурации.',          list: ['Клиенты и контрагенты', 'Документы и счета', 'Остатки и цены', 'Заказы'] },
+    portal:  { title: 'Внутренний портал',  text: 'Объединяем команду в одном пространстве.',                   list: ['Структура и роли', 'Документы', 'Задачи и проекты', 'Внутренний чат'] },
+    edu:     { title: 'Обучение сотрудников', text: 'Чтобы команда полюбила систему с первого дня.',            list: ['Тренинги по ролям', 'Видеоинструкции', 'База знаний', 'Поддержка вопросов'] },
   };
   const open = (key) => {
     const data = SERVICES[key];
@@ -502,7 +501,7 @@ const toast = (msg, kind = 'ok') => {
   if (!fab) return;
 
   const REPLIES = [
-    'Уточню у менеджера — обычно от 60 000 ₽.',
+    'Стоимость считаем под задачу — оставьте контакты, перезвоним.',
     'Срок старта — 2–5 дней.',
     'Оставьте телефон в форме ниже, мы перезвоним.',
     'Да, делаем интеграцию с 1С под любые конфигурации.',
@@ -537,29 +536,27 @@ const toast = (msg, kind = 'ok') => {
 })();
 
 /* ===== Phone mask ===== */
-(() => {
-  const inp = $('#fPhone');
-  if (!inp) return;
-  const format = (digits) => {
-    let d = digits.replace(/\D/g, '').slice(0, 11);
-    if (d.startsWith('8')) d = '7' + d.slice(1);
-    if (!d.startsWith('7') && d.length) d = '7' + d;
-    const p1 = d.slice(1, 4), p2 = d.slice(4, 7), p3 = d.slice(7, 9), p4 = d.slice(9, 11);
-    let out = '+7';
-    if (p1) out += ' (' + p1;
-    if (p1.length === 3) out += ')';
-    if (p2) out += ' ' + p2;
-    if (p3) out += '-' + p3;
-    if (p4) out += '-' + p4;
-    return out;
-  };
-  inp.addEventListener('input', (e) => {
-    const v = e.target.value;
-    e.target.value = format(v);
-  });
+const formatPhone = (digits) => {
+  let d = String(digits).replace(/\D/g, '').slice(0, 11);
+  if (d.startsWith('8')) d = '7' + d.slice(1);
+  if (!d.startsWith('7') && d.length) d = '7' + d;
+  const p1 = d.slice(1, 4), p2 = d.slice(4, 7), p3 = d.slice(7, 9), p4 = d.slice(9, 11);
+  let out = '+7';
+  if (p1) out += ' (' + p1;
+  if (p1.length === 3) out += ')';
+  if (p2) out += ' ' + p2;
+  if (p3) out += '-' + p3;
+  if (p4) out += '-' + p4;
+  return out;
+};
+const attachPhoneMask = (inp) => {
+  if (!inp || inp.dataset.maskBound) return;
+  inp.dataset.maskBound = '1';
+  inp.addEventListener('input', (e) => { e.target.value = formatPhone(e.target.value); });
   inp.addEventListener('focus', (e) => { if (!e.target.value) e.target.value = '+7 ('; });
   inp.addEventListener('blur', (e) => { if (e.target.value === '+7 (' || e.target.value === '+7') e.target.value = ''; });
-})();
+};
+$$('input[type="tel"]').forEach(attachPhoneMask);
 
 /* ===== Lead form: validation + honeypot + throttle ===== */
 (() => {
@@ -635,5 +632,123 @@ const toast = (msg, kind = 'ok') => {
     btn.textContent = orig;
     form.reset();
     toast('Спасибо! Свяжемся в течение 15 минут', 'ok');
+  });
+})();
+
+/* ===== Audit popup ===== */
+(() => {
+  const popup = $('#popup');
+  if (!popup) return;
+  const form = $('#popupForm');
+  const pName = $('#pName');
+  const pPhone = $('#pPhone');
+  const pEmail = $('#pEmail');
+  const pAgree = $('#pAgree');
+  const eName = $('#pErrName');
+  const ePhone = $('#pErrPhone');
+  const eEmail = $('#pErrEmail');
+  const eAgree = $('#pErrAgree');
+  const btn = $('#popupSubmit');
+  const KEY = 'popupShown_v1';
+  let opened = false, lastFocus = null, busy = false;
+
+  const open = () => {
+    if (opened) return;
+    try { if (localStorage.getItem(KEY)) return; } catch(e) {}
+    opened = true;
+    lastFocus = document.activeElement;
+    popup.classList.add('is-open');
+    popup.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => pName.focus(), 350);
+    try { localStorage.setItem(KEY, Date.now().toString()); } catch(e) {}
+  };
+  const close = () => {
+    popup.classList.remove('is-open');
+    popup.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    lastFocus?.focus();
+  };
+  popup.querySelectorAll('[data-popup-close]').forEach(el => el.addEventListener('click', close));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && popup.classList.contains('is-open')) close(); });
+
+  // Triggers: delay 20s, scroll > 50%, exit-intent (desktop) — но только после "созревания" страницы
+  const ARM_AFTER = 5000; // не показывать раньше 5с
+  const startedAt = Date.now();
+  const ready = () => Date.now() - startedAt > ARM_AFTER;
+  const delayTimer = setTimeout(open, 20000);
+  const onScroll = () => {
+    if (!ready()) return;
+    const h = document.documentElement;
+    const max = h.scrollHeight - h.clientHeight;
+    if (max && (h.scrollTop / max) > 0.5) { clearTimeout(delayTimer); open(); removeEventListener('scroll', onScroll); }
+  };
+  addEventListener('scroll', rafThrottle(onScroll), { passive: true });
+  if (HOVER) {
+    const onExit = (e) => {
+      if (!ready()) return;
+      if (e.clientY <= 0 && e.relatedTarget == null) {
+        clearTimeout(delayTimer); open(); document.removeEventListener('mouseleave', onExit);
+      }
+    };
+    document.documentElement.addEventListener('mouseleave', onExit);
+  }
+
+  // validation
+  const setErr = (field, errEl, msg) => {
+    field.parentElement.classList.toggle('error', !!msg);
+    errEl.textContent = msg || '';
+    field.setAttribute('aria-invalid', msg ? 'true' : 'false');
+  };
+  const vName = (v) => {
+    v = v.trim();
+    if (v.length < 2) return 'Минимум 2 символа';
+    if (!/^[A-Za-zА-Яа-яЁё\s\-]+$/.test(v)) return 'Только буквы';
+    return '';
+  };
+  const vPhone = (v) => v.replace(/\D/g, '').length < 11 ? 'Введите телефон полностью' : '';
+  const vEmail = (v) => {
+    if (!v.trim()) return '';
+    return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()) ? '' : 'Некорректный email';
+  };
+  const setAgree = (msg) => {
+    pAgree.closest('.agree').classList.toggle('error', !!msg);
+    eAgree.textContent = msg || '';
+    pAgree.setAttribute('aria-invalid', msg ? 'true' : 'false');
+  };
+
+  // показывать ошибки на blur только если поле уже трогали
+  pName.addEventListener('blur', () => { if (pName.value.trim()) setErr(pName, eName, vName(pName.value)); });
+  pPhone.addEventListener('blur', () => { const d = pPhone.value.replace(/\D/g,''); if (d.length > 1) setErr(pPhone, ePhone, vPhone(pPhone.value)); });
+  pEmail.addEventListener('blur', () => { if (pEmail.value.trim()) setErr(pEmail, eEmail, vEmail(pEmail.value)); });
+  pAgree.addEventListener('change', () => { if (pAgree.checked) setAgree(''); });
+
+  let lastSubmit = 0;
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (busy) return;
+    if (Date.now() - lastSubmit < 2500) { toast('Подождите немного…', 'err'); return; }
+    if (form.website.value) { toast('Ошибка отправки', 'err'); return; }
+    const n = vName(pName.value);
+    const p = vPhone(pPhone.value);
+    const em = vEmail(pEmail.value);
+    const ag = pAgree.checked ? '' : 'Необходимо ваше согласие';
+    setErr(pName, eName, n);
+    setErr(pPhone, ePhone, p);
+    setErr(pEmail, eEmail, em);
+    setAgree(ag);
+    if (n || p || em || ag) { toast('Проверьте поля формы', 'err'); return; }
+    busy = true;
+    btn.disabled = true;
+    const orig = btn.textContent;
+    btn.textContent = 'Отправляем…';
+    await new Promise(r => setTimeout(r, 900));
+    lastSubmit = Date.now();
+    busy = false;
+    btn.disabled = false;
+    btn.textContent = orig;
+    form.reset();
+    close();
+    toast('Заявка принята! Свяжемся за 15 минут', 'ok');
   });
 })();

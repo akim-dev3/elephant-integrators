@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Внедрение и настройка Битрикс24: CRM, автоматизация, интеграции, обучение. Официальный партнёр.">
+  <meta name="description" content="Интеграторы Слон — внедрение и настройка Битрикс24, CRM, автоматизация, интеграции, обучение. Партнёр 1С‑Битрикс.">
   <meta name="theme-color" content="#0B0B0B">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; img-src 'self' data:; connect-src 'self';">
-  <title>БИТРИКС.ПРО — Настройка Битрикс24 под ваш бизнес</title>
+  <title>Интеграторы Слон — настройка Битрикс24 под ваш бизнес</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%23D4AF37'/%3E%3Ctext x='12' y='17' font-family='Inter,sans-serif' font-size='14' font-weight='800' text-anchor='middle' fill='%230B0B0B'%3EБ%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,9 +19,7 @@
 
   <!-- Preloader -->
   <div class="preloader" id="preloader" aria-hidden="true">
-    <div class="preloader__logo">
-      <span class="preloader__mark">Б</span>
-    </div>
+    <div class="preloader__logo" role="img" aria-label="Логотип"></div>
     <div class="preloader__bar"><div class="preloader__fill" id="preloaderFill"></div></div>
     <div class="preloader__txt">Загрузка <span id="preloaderPct">0</span>%</div>
   </div>
@@ -44,17 +42,17 @@
 
   <header class="header" id="header">
     <div class="container header__inner">
-      <a href="#" class="logo" aria-label="БИТРИКС.ПРО — на главную">
-        <span class="logo__mark">Б</span>
-        <span class="logo__text">БИТРИКС<span class="logo__dot">.</span>ПРО</span>
+      <a href="#" class="logo" aria-label="Интеграторы Слон — на главную">
+        <span class="logo__mark" aria-hidden="true"></span>
+        <span class="logo__text">ИНТЕГРАТОРЫ<span class="logo__dot">·</span>СЛОН</span>
       </a>
       <nav class="nav" id="nav" aria-label="Главное меню">
         <a href="#services" data-spy="services">Услуги</a>
         <a href="#process" data-spy="process">Процесс</a>
-        <a href="#pricing" data-spy="pricing">Тарифы</a>
         <a href="#cases" data-spy="cases">Кейсы</a>
         <a href="#reviews" data-spy="reviews">Отзывы</a>
         <a href="#faq" data-spy="faq">FAQ</a>
+        <a href="#cta" data-spy="cta">Контакты</a>
       </nav>
       <a href="#cta" class="btn btn--primary header__cta magnetic" data-magnetic>Консультация</a>
       <button class="burger" id="burger" aria-label="Открыть меню" aria-expanded="false"><span></span><span></span><span></span></button>
@@ -130,59 +128,87 @@
       </div>
 
       <div class="services__grid">
-        <article class="srv tilt reveal" data-modal="crm">
-          <div class="srv__icon"><svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
-          <h3>Внедрение CRM</h3>
-          <p>Воронки, права, сделки.</p>
+        <article class="srv tilt reveal" data-modal="tg">
+          <div class="srv__icon"><svg viewBox="0 0 24 24" fill="none"><path d="M21 4L2 11l6 2 2 6 11-15z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M10 13l5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+          <h3>Telegram‑боты и интеграции</h3>
+          <p>Для продаж, поддержки, TG‑приложения.</p>
           <span class="srv__arrow">→</span>
         </article>
 
-        <article class="srv tilt reveal" data-modal="auto">
-          <div class="srv__icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/><path d="M19 12a7 7 0 11-7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
-          <h3>Автоматизация</h3>
-          <p>Роботы и бизнес‑процессы.</p>
+        <article class="srv tilt reveal" data-modal="funnel">
+          <div class="srv__icon"><svg viewBox="0 0 24 24" fill="none"><path d="M3 4h18l-7 9v6l-4 2v-8L3 4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></div>
+          <h3>Воронки продаж</h3>
+          <p>Внедрение и настройка под процессы.</p>
           <span class="srv__arrow">→</span>
         </article>
 
         <article class="srv tilt reveal" data-modal="integ">
-          <div class="srv__icon"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <h3>Интеграции</h3>
-          <p>1С, телефония, мессенджеры.</p>
-          <span class="srv__arrow">→</span>
-        </article>
-
-        <article class="srv tilt reveal" data-modal="portal">
-          <div class="srv__icon"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2"/><path d="M8 20h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
-          <h3>Корп. портал</h3>
-          <p>Структура и роли.</p>
+          <div class="srv__icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="6" cy="6" r="2.5" stroke="currentColor" stroke-width="1.8"/><circle cx="18" cy="18" r="2.5" stroke="currentColor" stroke-width="1.8"/><path d="M8 8l8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M14 4h6v6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <h3>Интеграции CRM</h3>
+          <p>Сайт, Avito и другие источники.</p>
           <span class="srv__arrow">→</span>
         </article>
 
         <article class="srv tilt reveal" data-modal="bi">
-          <div class="srv__icon"><svg viewBox="0 0 24 24" fill="none"><path d="M3 12l4-4 4 4 4-4 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <h3>Аналитика</h3>
-          <p>Отчёты и KPI.</p>
+          <div class="srv__icon"><svg viewBox="0 0 24 24" fill="none"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+          <h3>BI и аналитика</h3>
+          <p>Сквозные отчёты и KPI.</p>
+          <span class="srv__arrow">→</span>
+        </article>
+
+        <article class="srv tilt reveal" data-modal="web">
+          <div class="srv__icon"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M3 8h18M7 13l-2 2 2 2M11 13l2 2-2 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <h3>Разработка сайтов</h3>
+          <p>Лендинги, корпоративные, e‑commerce.</p>
+          <span class="srv__arrow">→</span>
+        </article>
+
+        <article class="srv tilt reveal" data-modal="app">
+          <div class="srv__icon"><svg viewBox="0 0 24 24" fill="none"><rect x="6" y="2" width="12" height="20" rx="2.5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="18" r="1" fill="currentColor"/></svg></div>
+          <h3>Разработка приложений</h3>
+          <p>Мобильные и web‑приложения.</p>
+          <span class="srv__arrow">→</span>
+        </article>
+
+        <article class="srv tilt reveal" data-modal="auto">
+          <div class="srv__icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8"/><path d="M19 12a7 7 0 11-7-7M19 3v4h-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <h3>Автоматизация CRM</h3>
+          <p>Роботы, триггеры, бизнес‑процессы.</p>
+          <span class="srv__arrow">→</span>
+        </article>
+
+        <article class="srv tilt reveal" data-modal="catalog">
+          <div class="srv__icon"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.8"/><rect x="14" y="3" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.8"/><rect x="3" y="14" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.8"/><rect x="14" y="14" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.8"/></svg></div>
+          <h3>Каталог товаров</h3>
+          <p>Структура, свойства, синхронизация.</p>
+          <span class="srv__arrow">→</span>
+        </article>
+
+        <article class="srv tilt reveal" data-modal="phone">
+          <div class="srv__icon"><svg viewBox="0 0 24 24" fill="none"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.37 1.9.72 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0122 16.92z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></div>
+          <h3>Телефония</h3>
+          <p>SIP, виртуальные АТС, запись звонков.</p>
+          <span class="srv__arrow">→</span>
+        </article>
+
+        <article class="srv tilt reveal" data-modal="onec">
+          <div class="srv__icon"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" stroke-width="1.8"/><path d="M9 9l2-1v8M14 15h3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <h3>Интеграция с 1С</h3>
+          <p>Обмен данными в обе стороны.</p>
+          <span class="srv__arrow">→</span>
+        </article>
+
+        <article class="srv tilt reveal" data-modal="portal">
+          <div class="srv__icon"><svg viewBox="0 0 24 24" fill="none"><path d="M3 21V8l9-5 9 5v13" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 21v-7h6v7M3 21h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+          <h3>Внутренний портал</h3>
+          <p>Структура, задачи, документы.</p>
           <span class="srv__arrow">→</span>
         </article>
 
         <article class="srv tilt reveal" data-modal="edu">
-          <div class="srv__icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="9" cy="8" r="3" stroke="currentColor" stroke-width="2"/><circle cx="17" cy="8" r="2" stroke="currentColor" stroke-width="2"/><path d="M3 19c0-3 3-5 6-5s6 2 6 5M15 19c0-2 2-3.5 4-3.5s2 1.5 2 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
-          <h3>Обучение</h3>
-          <p>Команда работает с первого дня.</p>
-          <span class="srv__arrow">→</span>
-        </article>
-
-        <article class="srv tilt reveal" data-modal="migr">
-          <div class="srv__icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2v20M5 9l7-7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <h3>Миграция</h3>
-          <p>Перенос данных без потерь.</p>
-          <span class="srv__arrow">→</span>
-        </article>
-
-        <article class="srv tilt reveal" data-modal="support">
-          <div class="srv__icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 22s8-4 8-12V5l-8-3-8 3v5c0 8 8 12 8 12z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></div>
-          <h3>Поддержка</h3>
-          <p>Сопровождение 24/7.</p>
+          <div class="srv__icon"><svg viewBox="0 0 24 24" fill="none"><path d="M2 9l10-5 10 5-10 5L2 9z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M6 11v5a6 6 0 0012 0v-5M22 9v5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+          <h3>Обучение сотрудников</h3>
+          <p>Тренинги, инструкции, база знаний.</p>
           <span class="srv__arrow">→</span>
         </article>
       </div>
@@ -213,90 +239,6 @@
           <div class="step reveal"><div class="step__num">03</div><h3>Настройка</h3><p>Внедряем и тестируем.</p></div>
           <div class="step reveal"><div class="step__num">04</div><h3>Запуск</h3><p>Обучение и поддержка.</p></div>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="pricing" id="pricing">
-    <div class="container">
-      <div class="section-head reveal">
-        <span class="eyebrow">Тарифы</span>
-        <h2>Выберите подход</h2>
-      </div>
-
-      <div class="pricing__toggle reveal" role="tablist" aria-label="Период оплаты">
-        <button class="pricing__opt is-active" data-period="month" role="tab" aria-selected="true">Поэтапно</button>
-        <button class="pricing__opt" data-period="year" role="tab" aria-selected="false">Под ключ (-15%)</button>
-        <span class="pricing__slider"></span>
-      </div>
-
-      <div class="pricing__grid">
-        <article class="plan reveal">
-          <div class="plan__head"><h3>Старт</h3><span class="plan__note">для малого бизнеса</span></div>
-          <div class="plan__price"><span class="plan__cur">от</span><span class="plan__num" data-price-month="60000" data-price-year="51000">60 000</span><span class="plan__cur">₽</span></div>
-          <ul class="plan__list">
-            <li>Базовая настройка CRM</li>
-            <li>1 воронка продаж</li>
-            <li>Подключение почты</li>
-            <li>2 часа обучения</li>
-          </ul>
-          <a href="#cta" class="btn btn--ghost magnetic" data-magnetic>Выбрать</a>
-        </article>
-
-        <article class="plan plan--featured reveal">
-          <div class="plan__badge">Популярно</div>
-          <div class="plan__head"><h3>Бизнес</h3><span class="plan__note">оптимальный</span></div>
-          <div class="plan__price"><span class="plan__cur">от</span><span class="plan__num" data-price-month="180000" data-price-year="153000">180 000</span><span class="plan__cur">₽</span></div>
-          <ul class="plan__list">
-            <li>Всё из «Старт»</li>
-            <li>3 воронки + сценарии</li>
-            <li>Интеграция с 1С</li>
-            <li>Телефония и мессенджеры</li>
-            <li>8 часов обучения</li>
-          </ul>
-          <a href="#cta" class="btn btn--primary magnetic" data-magnetic>Выбрать</a>
-        </article>
-
-        <article class="plan reveal">
-          <div class="plan__head"><h3>Корпорация</h3><span class="plan__note">под ключ</span></div>
-          <div class="plan__price"><span class="plan__cur">от</span><span class="plan__num" data-price-month="450000" data-price-year="382500">450 000</span><span class="plan__cur">₽</span></div>
-          <ul class="plan__list">
-            <li>Всё из «Бизнес»</li>
-            <li>Кастомные модули</li>
-            <li>API‑интеграции</li>
-            <li>Корпоративный портал</li>
-            <li>SLA и приоритет</li>
-          </ul>
-          <a href="#cta" class="btn btn--ghost magnetic" data-magnetic>Выбрать</a>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section class="calc" id="calc">
-    <div class="container">
-      <div class="section-head reveal">
-        <span class="eyebrow">Калькулятор</span>
-        <h2>Стоимость за 30 секунд</h2>
-      </div>
-
-      <div class="calc__box reveal">
-        <div class="calc__list">
-          <label class="calc__opt"><input type="checkbox" data-cost="40000" checked><span>Внедрение CRM</span><span class="calc__cost">40 000 ₽</span></label>
-          <label class="calc__opt"><input type="checkbox" data-cost="30000"><span>Интеграция с 1С</span><span class="calc__cost">30 000 ₽</span></label>
-          <label class="calc__opt"><input type="checkbox" data-cost="20000"><span>Телефония</span><span class="calc__cost">20 000 ₽</span></label>
-          <label class="calc__opt"><input type="checkbox" data-cost="25000"><span>Мессенджеры (WA/TG)</span><span class="calc__cost">25 000 ₽</span></label>
-          <label class="calc__opt"><input type="checkbox" data-cost="35000"><span>Автоматизация процессов</span><span class="calc__cost">35 000 ₽</span></label>
-          <label class="calc__opt"><input type="checkbox" data-cost="18000"><span>Обучение команды</span><span class="calc__cost">18 000 ₽</span></label>
-          <label class="calc__opt"><input type="checkbox" data-cost="50000"><span>Корпоративный портал</span><span class="calc__cost">50 000 ₽</span></label>
-          <label class="calc__opt"><input type="checkbox" data-cost="22000"><span>Аналитика и BI</span><span class="calc__cost">22 000 ₽</span></label>
-        </div>
-        <aside class="calc__result">
-          <div class="calc__resLabel">Итого ориентировочно</div>
-          <div class="calc__resNum"><span id="calcSum">40 000</span> <span>₽</span></div>
-          <div class="calc__resSub">Срок: <span id="calcDays">3</span> дн.</div>
-          <a href="#cta" class="btn btn--primary magnetic" data-magnetic>Зафиксировать смету</a>
-        </aside>
       </div>
     </div>
   </section>
@@ -430,11 +372,12 @@
         <h2>Частые вопросы</h2>
       </div>
       <div class="faq__list">
-        <details class="faq__item reveal"><summary>Сколько стоит настройка?<span class="faq__plus"></span></summary><p>От 60 000 ₽ — зависит от объёма работ.</p></details>
-        <details class="faq__item reveal"><summary>Сроки запуска?<span class="faq__plus"></span></summary><p>Базовая конфигурация — 2–5 дней.</p></details>
-        <details class="faq__item reveal"><summary>Работаете с облаком и коробкой?<span class="faq__plus"></span></summary><p>Да, обе версии Битрикс24.</p></details>
-        <details class="faq__item reveal"><summary>Есть ли поддержка?<span class="faq__plus"></span></summary><p>Да, пакеты сопровождения от 10 часов в месяц.</p></details>
-        <details class="faq__item reveal"><summary>Сделаете интеграцию с 1С?<span class="faq__plus"></span></summary><p>Да, под любую конфигурацию.</p></details>
+        <details class="faq__item reveal"><summary>С чего начать?<span class="faq__plus"></span></summary><p>Оставьте заявку — проведём бесплатную консультацию и подготовим план работ под ваш бизнес.</p></details>
+        <details class="faq__item reveal"><summary>Сроки запуска?<span class="faq__plus"></span></summary><p>Базовая конфигурация — 2–5 дней. Полное внедрение — от 2 недель.</p></details>
+        <details class="faq__item reveal"><summary>Работаете с облаком и коробкой?<span class="faq__plus"></span></summary><p>Да, поддерживаем обе версии Битрикс24.</p></details>
+        <details class="faq__item reveal"><summary>Есть ли поддержка после запуска?<span class="faq__plus"></span></summary><p>Да, сопровождаем проект и помогаем команде в процессе.</p></details>
+        <details class="faq__item reveal"><summary>Делаете интеграцию с 1С?<span class="faq__plus"></span></summary><p>Да, настраиваем обмен с любой конфигурацией 1С.</p></details>
+        <details class="faq__item reveal"><summary>Как обсудить стоимость?<span class="faq__plus"></span></summary><p>Стоимость рассчитываем под задачу. Свяжитесь с нами — обсудим объём работ.</p></details>
       </div>
     </div>
   </section>
@@ -444,19 +387,19 @@
   <footer class="footer">
     <div class="container footer__inner">
       <div class="footer__brand">
-        <span class="logo__mark">Б</span>
-        <span>БИТРИКС<span class="logo__dot">.</span>ПРО</span>
+        <span class="logo__mark" aria-hidden="true"></span>
+        <span>ИНТЕГРАТОРЫ<span class="logo__dot">·</span>СЛОН</span>
       </div>
       <div class="footer__cols">
         <div>
           <h4>Контакты</h4>
-          <p>+7 (800) 000‑00‑00</p>
-          <p>hello@bitrix.pro</p>
+          <p><a href="tel:+79936051145">+7 (993) 605‑11‑45</a></p>
+          <p>пн–пт, 10:00–19:00 МСК</p>
         </div>
         <div>
           <h4>Меню</h4>
           <a href="#services">Услуги</a>
-          <a href="#pricing">Тарифы</a>
+          <a href="#process">Процесс</a>
           <a href="#cases">Кейсы</a>
           <a href="#faq">FAQ</a>
         </div>
@@ -467,7 +410,7 @@
         </div>
       </div>
     </div>
-    <div class="footer__bottom container">© 2026 БИТРИКС.ПРО · Все права защищены</div>
+    <div class="footer__bottom container">© 2026 Интеграторы Слон · Все права защищены</div>
   </footer>
 
   <!-- Floating UI -->
@@ -508,6 +451,41 @@
     </form>
   </div>
 
-  <script src="app.js"></script>
+  <!-- Audit popup -->
+  <div class="popup" id="popup" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
+    <div class="popup__backdrop" data-popup-close></div>
+    <div class="popup__panel">
+      <button class="popup__close" data-popup-close aria-label="Закрыть">×</button>
+      <div class="popup__badge">Бесплатно</div>
+      <h3 id="popupTitle">Получите аудит Битрикс24</h3>
+      <p class="popup__sub">Разберём вашу систему и пришлём план улучшений за 1 день.</p>
+      <form class="popup__form" id="popupForm" novalidate autocomplete="on">
+        <div class="field">
+          <input type="text" name="name" id="pName" placeholder="Ваше имя" required minlength="2" maxlength="50" autocomplete="name" aria-label="Имя">
+          <span class="field__err" id="pErrName"></span>
+        </div>
+        <div class="field">
+          <input type="tel" name="phone" id="pPhone" placeholder="+7 (___) ___‑__‑__" required autocomplete="tel" inputmode="tel" aria-label="Телефон">
+          <span class="field__err" id="pErrPhone"></span>
+        </div>
+        <div class="field">
+          <input type="email" name="email" id="pEmail" placeholder="Email" autocomplete="email" inputmode="email" aria-label="Email">
+          <span class="field__err" id="pErrEmail"></span>
+        </div>
+        <!-- Honeypot -->
+        <input type="text" name="website" class="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <label class="agree field" for="pAgree">
+          <input type="checkbox" id="pAgree" name="agree" required>
+          <span class="agree__box" aria-hidden="true"></span>
+          <span class="agree__text">Согласен(‑на) на <a href="privacy.html" target="_blank" rel="noopener noreferrer">обработку персональных данных</a></span>
+        </label>
+        <span class="field__err" id="pErrAgree"></span>
+        <button type="submit" class="btn btn--primary" id="popupSubmit">Получить бесплатный аудит</button>
+        <p class="popup__priv">Перезвоним в течение 15 минут</p>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js" defer></script>
 </body>
 </html>
