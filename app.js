@@ -7,7 +7,22 @@ const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
 const PRM = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const HOVER = matchMedia('(hover: hover)').matches;
 const NARROW = innerWidth < 980;
-const LOW_END = (navigator.hardwareConcurrency || 4) <= 4 || NARROW;
+const SAVE_DATA = navigator.connection?.saveData === true;
+const SLOW_CONN = /(2g|slow-2g)/.test(navigator.connection?.effectiveType || '');
+const LOW_MEM = (navigator.deviceMemory || 8) <= 4;
+const LOW_CORE = (navigator.hardwareConcurrency || 8) <= 6;
+const LOW_END = LOW_CORE || LOW_MEM || NARROW || SAVE_DATA || SLOW_CONN || PRM;
+// Лайт-режим — полностью убираем дорогостоящие эффекты (blur, particles, custom cursor, tilt и т.д.)
+const LITE = LOW_END;
+if (LITE) document.documentElement.classList.add('lite');
+// Ручное переключение через localStorage флаг (на случай ошибки автодетекта)
+try { if (localStorage.getItem('forceLite') === '1') document.documentElement.classList.add('lite'); } catch(e) {}
+window.toggleLite = () => {
+  const on = !document.documentElement.classList.contains('lite');
+  document.documentElement.classList.toggle('lite', on);
+  try { localStorage.setItem('forceLite', on ? '1' : '0'); } catch(e) {}
+  location.reload();
+};
 const escapeHTML = (s) => String(s).replace(/[&<>"'/]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','/':'&#47;'}[c]));
 const rafThrottle = (fn) => { let t = false; return (...a) => { if (t) return; t = true; requestAnimationFrame(() => { fn(...a); t = false; }); }; };
 
@@ -54,7 +69,7 @@ const rafThrottle = (fn) => { let t = false; return (...a) => { if (t) return; t
 })();
 
 /* ===== Custom cursor ===== */
-if (HOVER && !PRM) (() => {
+if (HOVER && !PRM && !LITE) (() => {
   const c = $('#cursor');
   if (!c) return;
   const dot = $('.cursor__dot', c);
@@ -131,7 +146,7 @@ if (HOVER && !PRM) (() => {
 })();
 
 /* ===== Tilt + spotlight cards ===== */
-if (HOVER && !PRM) (() => {
+if (HOVER && !PRM && !LITE) (() => {
   const cards = $$('.tilt');
   cards.forEach(card => {
     card.addEventListener('mousemove', rafThrottle((e) => {
@@ -149,7 +164,7 @@ if (HOVER && !PRM) (() => {
 })();
 
 /* ===== Magnetic buttons ===== */
-if (HOVER && !PRM) (() => {
+if (HOVER && !PRM && !LITE) (() => {
   $$('[data-magnetic]').forEach(el => {
     el.addEventListener('mousemove', (e) => {
       const r = el.getBoundingClientRect();
@@ -221,7 +236,7 @@ if (HOVER && !PRM) (() => {
 })();
 
 /* ===== Parallax in hero ===== */
-if (!PRM) (() => {
+if (!PRM && !LITE) (() => {
   const layers = $$('[data-parallax-speed]');
   if (!layers.length) return;
   const apply = () => {
@@ -256,7 +271,7 @@ if (!PRM) (() => {
 })();
 
 /* ===== Fireflies (golden glow particles) ===== */
-if (!PRM) (() => {
+if (!PRM && !LITE) (() => {
   const canvas = $('#particles');
   if (!canvas) return;
   const ctx = canvas.getContext('2d', { alpha: true });
