@@ -55,14 +55,11 @@ if (HOVER && !PRM) (() => {
   if (!c) return;
   const dot = $('.cursor__dot', c);
   const ring = $('.cursor__ring', c);
-  let x = 0, y = 0, rx = 0, ry = 0;
-  addEventListener('mousemove', (e) => { x = e.clientX; y = e.clientY; dot.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`; });
-  const loop = () => {
-    rx += (x - rx) * 0.18; ry += (y - ry) * 0.18;
-    ring.style.transform = `translate(${rx}px, ${ry}px) translate(-50%, -50%)`;
-    requestAnimationFrame(loop);
-  };
-  loop();
+  addEventListener('mousemove', (e) => {
+    const t = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
+    dot.style.transform = t;
+    ring.style.transform = t;
+  });
   const hoverSel = 'a, button, .srv, .case-card, .plan, .faq__item, .calc__opt, summary, input, label';
   document.addEventListener('mouseover', (e) => { if (e.target.closest(hoverSel)) c.classList.add('is-hover'); });
   document.addEventListener('mouseout', (e) => { if (e.target.closest(hoverSel)) c.classList.remove('is-hover'); });
@@ -570,8 +567,10 @@ const toast = (msg, kind = 'ok') => {
   if (!form) return;
   const fName = $('#fName');
   const fPhone = $('#fPhone');
+  const fAgree = $('#fAgree');
   const errName = $('#errName');
   const errPhone = $('#errPhone');
+  const errAgree = $('#errAgree');
   const btn = $('#leadSubmit');
   let busy = false, lastSubmit = 0;
 
@@ -593,10 +592,17 @@ const toast = (msg, kind = 'ok') => {
     return '';
   };
 
+  const setAgreeErr = (msg) => {
+    fAgree.closest('.agree').classList.toggle('error', !!msg);
+    errAgree.textContent = msg || '';
+    fAgree.setAttribute('aria-invalid', msg ? 'true' : 'false');
+  };
+
   fName.addEventListener('blur', () => setErr(fName, errName, validName(fName.value)));
   fPhone.addEventListener('blur', () => setErr(fPhone, errPhone, validPhone(fPhone.value)));
   fName.addEventListener('input', () => { if (errName.textContent) setErr(fName, errName, validName(fName.value)); });
   fPhone.addEventListener('input', () => { if (errPhone.textContent) setErr(fPhone, errPhone, validPhone(fPhone.value)); });
+  fAgree.addEventListener('change', () => { if (fAgree.checked) setAgreeErr(''); });
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -609,9 +615,11 @@ const toast = (msg, kind = 'ok') => {
 
     const nErr = validName(fName.value);
     const pErr = validPhone(fPhone.value);
+    const aErr = fAgree.checked ? '' : 'Необходимо ваше согласие';
     setErr(fName, errName, nErr);
     setErr(fPhone, errPhone, pErr);
-    if (nErr || pErr) { toast('Проверьте поля формы', 'err'); return; }
+    setAgreeErr(aErr);
+    if (nErr || pErr || aErr) { toast('Проверьте поля формы', 'err'); return; }
 
     busy = true;
     btn.disabled = true;
