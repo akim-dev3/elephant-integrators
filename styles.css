@@ -55,7 +55,7 @@ img, svg { display: block; max-width: 100%; }
 .preloader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
 .preloader__logo {
   width: 84px; height: 84px; border-radius: 50%;
-  background: #0b0b0b url('logo.jpg?v=5') center/cover no-repeat;
+  background: #0b0b0b url('logo-128.png?v=5') center/cover no-repeat;
   box-shadow: 0 0 50px rgba(212,175,55,.5);
   animation: bounce 1.2s ease-in-out infinite;
 }
@@ -144,7 +144,7 @@ section { overflow-x: clip; }
 .logo { display: flex; align-items: center; gap: 12px; font-weight: 800; letter-spacing: .04em; font-family: var(--display); min-width: 0; }
 .logo__mark {
   width: 44px; height: 44px; border-radius: 50%;
-  background: #0b0b0b url('logo.jpg?v=5') center/cover no-repeat;
+  background: #0b0b0b url('logo-128.png?v=5') center/cover no-repeat;
   box-shadow: 0 0 24px rgba(212,175,55,.35);
   flex-shrink: 0;
   display: block;
