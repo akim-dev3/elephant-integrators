@@ -649,19 +649,16 @@ $$('input[type="tel"]').forEach(attachPhoneMask);
   const eEmail = $('#pErrEmail');
   const eAgree = $('#pErrAgree');
   const btn = $('#popupSubmit');
-  const KEY = 'popupShown_v1';
   let opened = false, lastFocus = null, busy = false;
 
   const open = () => {
     if (opened) return;
-    try { if (localStorage.getItem(KEY)) return; } catch(e) {}
     opened = true;
     lastFocus = document.activeElement;
     popup.classList.add('is-open');
     popup.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
     setTimeout(() => pName.focus(), 350);
-    try { localStorage.setItem(KEY, Date.now().toString()); } catch(e) {}
   };
   const close = () => {
     popup.classList.remove('is-open');
@@ -672,27 +669,8 @@ $$('input[type="tel"]').forEach(attachPhoneMask);
   popup.querySelectorAll('[data-popup-close]').forEach(el => el.addEventListener('click', close));
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && popup.classList.contains('is-open')) close(); });
 
-  // Triggers: delay 20s, scroll > 50%, exit-intent (desktop) — но только после "созревания" страницы
-  const ARM_AFTER = 5000; // не показывать раньше 5с
-  const startedAt = Date.now();
-  const ready = () => Date.now() - startedAt > ARM_AFTER;
-  const delayTimer = setTimeout(open, 20000);
-  const onScroll = () => {
-    if (!ready()) return;
-    const h = document.documentElement;
-    const max = h.scrollHeight - h.clientHeight;
-    if (max && (h.scrollTop / max) > 0.5) { clearTimeout(delayTimer); open(); removeEventListener('scroll', onScroll); }
-  };
-  addEventListener('scroll', rafThrottle(onScroll), { passive: true });
-  if (HOVER) {
-    const onExit = (e) => {
-      if (!ready()) return;
-      if (e.clientY <= 0 && e.relatedTarget == null) {
-        clearTimeout(delayTimer); open(); document.removeEventListener('mouseleave', onExit);
-      }
-    };
-    document.documentElement.addEventListener('mouseleave', onExit);
-  }
+  // Показываем при каждом заходе — через 4 секунды после загрузки
+  setTimeout(open, 4000);
 
   // validation
   const setErr = (field, errEl, msg) => {
