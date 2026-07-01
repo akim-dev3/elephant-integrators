@@ -70,6 +70,7 @@ const rafThrottle = (fn) => { let t = false; return (...a) => { if (t) return; t
 /* ===== Sticky header shrink ===== */
 (() => {
   const h = $('#header');
+  if (!h) return;
   const onScroll = () => h.classList.toggle('is-scrolled', scrollY > 8);
   addEventListener('scroll', rafThrottle(onScroll), { passive: true });
   onScroll();
@@ -753,4 +754,34 @@ $$('input[type="tel"]').forEach(attachPhoneMask);
     close();
     toast('Заявка принята! Свяжемся за 15 минут', 'ok');
   });
+})();
+
+/* ===== iframe auto-resize: post current height to parent so the outer
+   iframe can grow to fit content and hide its own scrollbar ===== */
+(() => {
+  if (window.parent === window) return; // not in iframe — do nothing
+  let lastH = 0;
+  const report = () => {
+    const h = Math.max(
+      document.documentElement.scrollHeight,
+      document.body ? document.body.scrollHeight : 0
+    );
+    if (h && Math.abs(h - lastH) > 2) {
+      lastH = h;
+      window.parent.postMessage({ slbHeight: h, slbSource: 'integrators-slon' }, '*');
+    }
+  };
+  // Report immediately and on any layout change
+  report();
+  window.addEventListener('load', report);
+  window.addEventListener('resize', report);
+  if ('ResizeObserver' in window) {
+    new ResizeObserver(report).observe(document.documentElement);
+  }
+  // Poll for the first 5 seconds to catch late-loading fonts, images, etc.
+  let i = 0;
+  const iv = setInterval(() => {
+    report();
+    if (++i > 25) clearInterval(iv);
+  }, 200);
 })();
