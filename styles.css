@@ -36,12 +36,12 @@ img, svg { display: block; max-width: 100%; }
 ::selection { background: var(--gold); color: #0b0b0b; }
 
 /* ===== Scrollbars — themed to match the site everywhere ===== */
-* { scrollbar-width: thin; scrollbar-color: var(--gold-soft) var(--bg-soft); }
-::-webkit-scrollbar { width: 10px; height: 10px; }
-::-webkit-scrollbar-track { background: var(--bg-soft); }
-::-webkit-scrollbar-thumb { background: var(--gold-soft); border-radius: 10px; border: 2px solid var(--bg-soft); background-clip: padding-box; }
+* { scrollbar-width: thin; scrollbar-color: var(--gold-soft) transparent; }
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--gold-soft); border-radius: 8px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
-::-webkit-scrollbar-corner { background: var(--bg-soft); }
+::-webkit-scrollbar-corner { background: transparent; }
 
 /* ===== Skip-link ===== */
 .skip-link {
