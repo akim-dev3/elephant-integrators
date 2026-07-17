@@ -958,6 +958,28 @@ $$('input[type="tel"]').forEach(attachPhoneMask);
   });
 })();
 
+/* ===== links between pages: inside the Bitrix24 iframe navigation must
+   happen in the TOP window (constructor pages / , /bitrix24/ , /privacy/),
+   otherwise the browser URL never changes ===== */
+(() => {
+  if (window.parent === window) return; // not in iframe — plain links work
+  let site = 'https://integrators-elephant.bitrix24site.ru';
+  try {
+    if (document.referrer) site = new URL(document.referrer).origin;
+  } catch (e) {}
+  const map = {
+    'index.html':    '/',
+    'bitrix24.html': '/bitrix24/',
+    'privacy.html':  '/privacy/',
+  };
+  $$('a[href]').forEach((a) => {
+    const m = (a.getAttribute('href') || '').match(/^([\w-]+\.html)([#?].*)?$/);
+    if (!m || !map[m[1]]) return;
+    a.setAttribute('href', site + map[m[1]] + (m[2] || ''));
+    a.setAttribute('target', '_top');
+  });
+})();
+
 /* ===== iframe auto-resize: post current height to parent so the outer
    iframe can grow to fit content and hide its own scrollbar ===== */
 (() => {

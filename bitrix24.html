@@ -1,173 +1,370 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="robots" content="index,follow">
-  <meta name="description" content="Битрикс24 — облачная и коробочная платформа для управления бизнесом: CRM, задачи и проекты, сайты, склад, телефония. Интеграторы Слон — внедрение и настройка Битрикс24.">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:;">
-  <title>Битрикс24 — что это и как мы его внедряем — Интеграторы Слон</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%23D4AF37'/%3E%3Ctext x='12' y='17' font-family='Inter,sans-serif' font-size='14' font-weight='800' text-anchor='middle' fill='%230B0B0B'%3EБ%3C/text%3E%3C/svg%3E">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=9">
-  <style>
-    body { cursor: auto; }
-    .cursor, .bg-mesh, #particles, .chat-fab, .back-top, .scroll-progress { display: none !important; }
-    .legal { padding: 140px 0 100px; max-width: 880px; margin: 0 auto; }
-    .legal h1 { font-family: var(--display); font-size: clamp(32px, 4.5vw, 48px); font-weight: 700; letter-spacing: -.02em; margin-bottom: 12px; line-height: 1.1; }
-    .legal__lead { color: var(--text-dim); margin-bottom: 48px; }
-    .legal h2 { font-family: var(--display); font-size: 22px; font-weight: 700; margin: 40px 0 14px; color: var(--gold); }
-    .legal h3 { font-family: var(--display); font-size: 17px; font-weight: 600; margin: 24px 0 8px; }
-    .legal p, .legal li { color: rgba(255,255,255,.78); font-size: 15px; line-height: 1.7; margin-bottom: 10px; }
-    .legal ul, .legal ol { padding-left: 22px; margin-bottom: 16px; }
-    .legal ul li::marker { color: var(--gold); }
-    .legal a { color: var(--gold); text-decoration: underline; text-decoration-color: var(--gold-soft); }
-    .legal__meta {
-      display: flex; gap: 24px; flex-wrap: wrap;
-      padding: 16px 22px; border: .8px solid var(--gold-line);
-      border-radius: var(--radius-md); background: var(--bg-card);
-      font-size: 13px; color: var(--text-dim);
-      margin-bottom: 32px;
-    }
-    .legal__meta b { color: var(--text); }
-    .legal__back { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 32px; color: var(--text-dim); font-size: 14px; }
-    .legal__back:hover { color: var(--gold); }
-    .legal__divider { border: none; border-top: 1px solid var(--gold-line); margin: 48px 0 32px; }
-    .legal__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px 32px; }
-    @media (max-width: 640px) { .legal__grid { grid-template-columns: 1fr; } }
-  </style>
-</head>
-<body>
-  <div class="bg-grid" aria-hidden="true"></div>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="robots" content="index,follow" />
+        <meta
+            name="description"
+            content="Битрикс24 — облачная и коробочная платформа для управления бизнесом: CRM, задачи и проекты, сайты, склад, телефония. Интеграторы Слон — внедрение и настройка Битрикс24."
+        />
+        <meta
+            http-equiv="Content-Security-Policy"
+            content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:;"
+        />
+        <title>
+            Битрикс24 — что это и как мы его внедряем — Интеграторы Слон
+        </title>
+        <link
+            rel="icon"
+            href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%23D4AF37'/%3E%3Ctext x='12' y='17' font-family='Inter,sans-serif' font-size='14' font-weight='800' text-anchor='middle' fill='%230B0B0B'%3EБ%3C/text%3E%3C/svg%3E"
+        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="styles.css?v=9" />
+        <style>
+            body {
+                cursor: auto;
+            }
+            .cursor,
+            .bg-mesh,
+            #particles,
+            .chat-fab,
+            .back-top,
+            .scroll-progress {
+                display: none !important;
+            }
+            .legal {
+                padding: 140px 0 100px;
+                max-width: 880px;
+                margin: 0 auto;
+            }
+            .legal h1 {
+                font-family: var(--display);
+                font-size: clamp(32px, 4.5vw, 48px);
+                font-weight: 700;
+                letter-spacing: -0.02em;
+                margin-bottom: 12px;
+                line-height: 1.1;
+            }
+            .legal__lead {
+                color: var(--text-dim);
+                margin-bottom: 48px;
+            }
+            .legal h2 {
+                font-family: var(--display);
+                font-size: 22px;
+                font-weight: 700;
+                margin: 40px 0 14px;
+                color: var(--gold);
+            }
+            .legal h3 {
+                font-family: var(--display);
+                font-size: 17px;
+                font-weight: 600;
+                margin: 24px 0 8px;
+            }
+            .legal p,
+            .legal li {
+                color: rgba(255, 255, 255, 0.78);
+                font-size: 15px;
+                line-height: 1.7;
+                margin-bottom: 10px;
+            }
+            .legal ul,
+            .legal ol {
+                padding-left: 22px;
+                margin-bottom: 16px;
+            }
+            .legal ul li::marker {
+                color: var(--gold);
+            }
+            .legal a {
+                color: var(--gold);
+                text-decoration: underline;
+                text-decoration-color: var(--gold-soft);
+            }
+            .legal__meta {
+                display: flex;
+                gap: 24px;
+                flex-wrap: wrap;
+                padding: 16px 22px;
+                border: 0.8px solid var(--gold-line);
+                border-radius: var(--radius-md);
+                background: var(--bg-card);
+                font-size: 13px;
+                color: var(--text-dim);
+                margin-bottom: 32px;
+            }
+            .legal__meta b {
+                color: var(--text);
+            }
+            .legal__back {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                margin-bottom: 32px;
+                color: var(--text-dim);
+                font-size: 14px;
+            }
+            .legal__back:hover {
+                color: var(--gold);
+            }
+            .legal__divider {
+                border: none;
+                border-top: 1px solid var(--gold-line);
+                margin: 48px 0 32px;
+            }
+            .legal__grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px 32px;
+            }
+            @media (max-width: 640px) {
+                .legal__grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="bg-grid" aria-hidden="true"></div>
 
-  <header class="header">
-    <div class="container header__inner">
-      <a href="index.html" class="logo" aria-label="Интеграторы Слон — на главную">
-        <span class="logo__mark" aria-hidden="true"></span>
-        <span class="logo__text">ИНТЕГРАТОРЫ<span class="logo__dot">·</span>СЛОН</span>
-      </a>
-      <a href="index.html" class="btn btn--ghost">На главную</a>
-    </div>
-  </header>
+        <header class="header">
+            <div class="container header__inner">
+                <a
+                    href="index.html"
+                    class="logo"
+                    aria-label="Интеграторы Слон — на главную"
+                >
+                    <span class="logo__mark" aria-hidden="true"></span>
+                    <span class="logo__text"
+                        >ИНТЕГРАТОРЫ<span class="logo__dot">·</span>СЛОН</span
+                    >
+                </a>
+                <a href="index.html" class="btn btn--ghost">На главную</a>
+            </div>
+        </header>
 
-  <main>
-  <section class="legal container">
-    <a href="index.html" class="legal__back">← Вернуться на главную</a>
+        <main>
+            <section class="legal container">
+                <a href="index.html" class="legal__back"
+                    >← Вернуться на главную</a
+                >
 
-    <h1 id="bitrix24">Битрикс24: что это и как мы его внедряем</h1>
-    <p class="legal__lead">Официальный партнёр‑интегратор Битрикс24 — рассказываем, что умеет платформа, и что именно делаем для клиентов при внедрении.</p>
+                <h1 id="bitrix24">Битрикс24: что это и как мы его внедряем</h1>
+                <p class="legal__lead">
+                    Официальный партнёр‑интегратор Битрикс24 — рассказываем, что
+                    умеет платформа, и что именно делаем для клиентов при
+                    внедрении.
+                </p>
 
-    <h2>Что такое Битрикс24</h2>
-    <p>Битрикс24 — российская платформа для управления бизнесом, которая объединяет CRM, задачи и проекты, коммуникации, сайты, склад и телефонию в едином окне. Доступна в двух вариантах:</p>
-    <ul>
-      <li><b>Облачный Битрикс24</b> — работает через браузер и мобильное приложение, не требует собственного сервера, обновления устанавливаются автоматически.</li>
-      <li><b>Битрикс24: Коробочная версия</b> — устанавливается на сервер компании, подходит бизнесу с требованиями к размещению данных на своей инфраструктуре и глубокой кастомизации.</li>
-    </ul>
+                <h2>Что такое Битрикс24</h2>
+                <p>
+                    Битрикс24 — российская платформа для управления бизнесом,
+                    которая объединяет CRM, задачи и проекты, коммуникации,
+                    сайты, склад и телефонию в едином окне. Доступна в двух
+                    вариантах:
+                </p>
+                <ul>
+                    <li>
+                        <b>Облачный Битрикс24</b> — работает через браузер и
+                        мобильное приложение, не требует собственного сервера,
+                        обновления устанавливаются автоматически.
+                    </li>
+                    <li>
+                        <b>Битрикс24: Коробочная версия</b> — устанавливается на
+                        сервер компании, подходит бизнесу с требованиями к
+                        размещению данных на своей инфраструктуре и глубокой
+                        кастомизации.
+                    </li>
+                </ul>
 
-    <h2>Основные возможности платформы</h2>
-    <div class="legal__grid">
-      <div>
-        <h3>CRM</h3>
-        <p>Лиды, сделки, контакты, воронки продаж, автоматизация и сквозная аналитика.</p>
-      </div>
-      <div>
-        <h3>Задачи и проекты</h3>
-        <p>Постановка задач, канбан‑доски, диаграмма Ганта, учёт рабочего времени.</p>
-      </div>
-      <div>
-        <h3>Сайты и магазины</h3>
-        <p>Конструктор сайтов и лендингов, каталог товаров, интернет‑магазин.</p>
-      </div>
-      <div>
-        <h3>Коммуникации</h3>
-        <p>Корпоративный чат, видеозвонки, лента новостей, внутренний портал.</p>
-      </div>
-      <div>
-        <h3>Телефония</h3>
-        <p>Виртуальная АТС, запись звонков, интеграция звонков с карточкой CRM.</p>
-      </div>
-      <div>
-        <h3>Склад и 1С</h3>
-        <p>Учёт товаров, резервирование остатков, обмен данными с 1С.</p>
-      </div>
-      <div>
-        <h3>Интеграции</h3>
-        <p>WhatsApp, Telegram, Avito, соцсети, почта — все обращения в одном окне.</p>
-      </div>
-      <div>
-        <h3>Тарифы</h3>
-        <p>Варианты для команд любого размера — от небольшого отдела продаж до крупной компании.</p>
-      </div>
-    </div>
+                <h2>Основные возможности платформы</h2>
+                <div class="legal__grid">
+                    <div>
+                        <h3>CRM</h3>
+                        <p>
+                            Лиды, сделки, контакты, воронки продаж,
+                            автоматизация и сквозная аналитика.
+                        </p>
+                    </div>
+                    <div>
+                        <h3>Задачи и проекты</h3>
+                        <p>
+                            Постановка задач, канбан‑доски, диаграмма Ганта,
+                            учёт рабочего времени.
+                        </p>
+                    </div>
+                    <div>
+                        <h3>Сайты и магазины</h3>
+                        <p>
+                            Конструктор сайтов и лендингов, каталог товаров,
+                            интернет‑магазин.
+                        </p>
+                    </div>
+                    <div>
+                        <h3>Коммуникации</h3>
+                        <p>
+                            Корпоративный чат, видеозвонки, лента новостей,
+                            внутренний портал.
+                        </p>
+                    </div>
+                    <div>
+                        <h3>Телефония</h3>
+                        <p>
+                            Виртуальная АТС, запись звонков, интеграция звонков
+                            с карточкой CRM.
+                        </p>
+                    </div>
+                    <div>
+                        <h3>Склад и 1С</h3>
+                        <p>
+                            Учёт товаров, резервирование остатков, обмен данными
+                            с 1С.
+                        </p>
+                    </div>
+                    <div>
+                        <h3>Интеграции</h3>
+                        <p>
+                            WhatsApp, Telegram, Avito, соцсети, почта — все
+                            обращения в одном окне.
+                        </p>
+                    </div>
+                    <div>
+                        <h3>Тарифы</h3>
+                        <p>
+                            Варианты для команд любого размера — от небольшого
+                            отдела продаж до крупной компании.
+                        </p>
+                    </div>
+                </div>
 
-    <hr class="legal__divider">
+                <hr class="legal__divider" />
 
-    <h2>Что мы делаем как интегратор Битрикс24</h2>
-    <p>«Интеграторы Слон» настраивают Битрикс24 под процессы конкретного бизнеса — от быстрого запуска CRM до сложных сценариев автоматизации:</p>
-    <ul>
-      <li>Настройка CRM и воронок продаж под ваш цикл сделки;</li>
-      <li>Интеграция Битрикс24 с 1С, телефонией, мессенджерами и сайтом;</li>
-      <li>Автоматизация бизнес‑процессов: роботы, триггеры, бизнес‑процессы в CRM;</li>
-      <li>Настройка BI‑аналитики и отчётов внутри портала;</li>
-      <li>Перенос данных из других CRM и обучение сотрудников работе в Битрикс24;</li>
-      <li>Техническая поддержка и сопровождение после запуска.</li>
-    </ul>
-    <p>Если рассматриваете переход на Битрикс24 или хотите донастроить уже работающий портал — <a href="index.html#cta">оставьте заявку</a> на главной странице, обсудим задачу и предложим план внедрения.</p>
-  </section>
-  </main>
+                <h2>Что мы делаем как интегратор Битрикс24</h2>
+                <p>
+                    «Интеграторы Слон» настраивают Битрикс24 под процессы
+                    конкретного бизнеса — от быстрого запуска CRM до сложных
+                    сценариев автоматизации:
+                </p>
+                <ul>
+                    <li>Настройка CRM и воронок продаж под ваш цикл сделки;</li>
+                    <li>
+                        Интеграция Битрикс24 с 1С, телефонией, мессенджерами и
+                        сайтом;
+                    </li>
+                    <li>
+                        Автоматизация бизнес‑процессов: роботы, триггеры,
+                        бизнес‑процессы в CRM;
+                    </li>
+                    <li>Настройка BI‑аналитики и отчётов внутри портала;</li>
+                    <li>
+                        Перенос данных из других CRM и обучение сотрудников
+                        работе в Битрикс24;
+                    </li>
+                    <li>
+                        Техническая поддержка и сопровождение после запуска.
+                    </li>
+                </ul>
+                <p>
+                    Если рассматриваете переход на Битрикс24 или хотите
+                    донастроить уже работающий портал —
+                    <a href="index.html#cta">оставьте заявку</a> на главной
+                    странице, обсудим задачу и предложим план внедрения.
+                </p>
+            </section>
+        </main>
 
-  <footer class="footer">
-    <div class="container footer__inner">
-      <div class="footer__brand">
-        <span class="logo__mark" aria-hidden="true"></span>
-        <span>ИНТЕГРАТОРЫ<span class="logo__dot">·</span>СЛОН</span>
-      </div>
-      <div class="footer__cols">
-        <div>
-          <h4>Контакты</h4>
-          <p>+7 (993) 605‑11‑45</p>
-          <p>указать на сайте</p>
-        </div>
-        <div>
-          <h4>Документы</h4>
-          <a href="bitrix24.html">О Битрикс24</a>
-          <a href="privacy.html">Политика конфиденциальности</a>
-          <a href="privacy.html#consent">Согласие на обработку ПДн</a>
-        </div>
-      </div>
-    </div>
-    <div class="footer__bottom container">© 2026 Интеграторы Слон · Все права защищены</div>
-  </footer>
+        <footer class="footer">
+            <div class="container footer__inner">
+                <div class="footer__brand">
+                    <span class="logo__mark" aria-hidden="true"></span>
+                    <span>ИНТЕГРАТОРЫ<span class="logo__dot">·</span>СЛОН</span>
+                </div>
+                <div class="footer__cols">
+                    <div>
+                        <h4>Контакты</h4>
+                        <p>+7 (993) 605‑11‑45</p>
+                        <p>указать на сайте</p>
+                    </div>
+                    <div>
+                        <h4>Документы</h4>
+                        <a href="bitrix24.html">О Битрикс24</a>
+                        <a href="privacy.html">Политика конфиденциальности</a>
+                        <a href="privacy.html#consent"
+                            >Согласие на обработку ПДн</a
+                        >
+                    </div>
+                </div>
+            </div>
+            <div class="footer__bottom container">
+                © 2026 Интеграторы Слон · Все права защищены
+            </div>
+        </footer>
 
-  <script>
-  /* iframe auto-resize: report height to parent so iframe grows to fit content */
-  (function() {
-    if (window.parent === window) return; // not in iframe
-    var lastH = 0;
-    function report() {
-      var h = Math.max(
-        document.documentElement.scrollHeight,
-        document.body ? document.body.scrollHeight : 0
-      );
-      if (h && Math.abs(h - lastH) > 2) {
-        lastH = h;
-        window.parent.postMessage({ slbHeight: h, slbSource: 'integrators-slon' }, '*');
-      }
-    }
-    report();
-    window.addEventListener('load', report);
-    window.addEventListener('resize', report);
-    if ('ResizeObserver' in window) {
-      new ResizeObserver(report).observe(document.documentElement);
-    }
-    var i = 0;
-    var iv = setInterval(function() {
-      report();
-      if (++i > 25) clearInterval(iv);
-    }, 200);
-  })();
-  </script>
-</body>
+        <script>
+            /* links between pages: inside the Bitrix24 iframe navigation must
+               happen in the TOP window (constructor pages), otherwise the
+               browser URL never changes */
+            (function () {
+                if (window.parent === window) return; // not in iframe
+                var site = "https://integrators-elephant.bitrix24site.ru";
+                try {
+                    if (document.referrer)
+                        site = new URL(document.referrer).origin;
+                } catch (e) {}
+                var map = {
+                    "index.html": "/",
+                    "bitrix24.html": "/bitrix24/",
+                    "privacy.html": "/privacy/",
+                };
+                var links = document.querySelectorAll("a[href]");
+                for (var i = 0; i < links.length; i++) {
+                    var m = (links[i].getAttribute("href") || "").match(
+                        /^([\w-]+\.html)([#?].*)?$/,
+                    );
+                    if (!m || !map[m[1]]) continue;
+                    links[i].setAttribute("href", site + map[m[1]] + (m[2] || ""));
+                    links[i].setAttribute("target", "_top");
+                }
+            })();
+
+            /* iframe auto-resize: report height to parent so iframe grows to fit content */
+            (function () {
+                if (window.parent === window) return; // not in iframe
+                var lastH = 0;
+                function report() {
+                    var h = Math.max(
+                        document.documentElement.scrollHeight,
+                        document.body ? document.body.scrollHeight : 0,
+                    );
+                    if (h && Math.abs(h - lastH) > 2) {
+                        lastH = h;
+                        window.parent.postMessage(
+                            { slbHeight: h, slbSource: "integrators-slon" },
+                            "*",
+                        );
+                    }
+                }
+                report();
+                window.addEventListener("load", report);
+                window.addEventListener("resize", report);
+                if ("ResizeObserver" in window) {
+                    new ResizeObserver(report).observe(
+                        document.documentElement,
+                    );
+                }
+                var i = 0;
+                var iv = setInterval(function () {
+                    report();
+                    if (++i > 25) clearInterval(iv);
+                }, 200);
+            })();
+        </script>
+    </body>
 </html>

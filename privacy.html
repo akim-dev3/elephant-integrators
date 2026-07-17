@@ -177,6 +177,28 @@
   </footer>
 
   <script>
+  /* links between pages: inside the Bitrix24 iframe navigation must happen
+     in the TOP window (constructor pages), otherwise the browser URL never changes */
+  (function() {
+    if (window.parent === window) return; // not in iframe
+    var site = 'https://integrators-elephant.bitrix24site.ru';
+    try {
+      if (document.referrer) site = new URL(document.referrer).origin;
+    } catch (e) {}
+    var map = {
+      'index.html': '/',
+      'bitrix24.html': '/bitrix24/',
+      'privacy.html': '/privacy/'
+    };
+    var links = document.querySelectorAll('a[href]');
+    for (var i = 0; i < links.length; i++) {
+      var m = (links[i].getAttribute('href') || '').match(/^([\w-]+\.html)([#?].*)?$/);
+      if (!m || !map[m[1]]) continue;
+      links[i].setAttribute('href', site + map[m[1]] + (m[2] || ''));
+      links[i].setAttribute('target', '_top');
+    }
+  })();
+
   /* iframe auto-resize: report height to parent so iframe grows to fit content */
   (function() {
     if (window.parent === window) return; // not in iframe
